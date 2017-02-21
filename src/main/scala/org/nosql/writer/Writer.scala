@@ -8,5 +8,5 @@ import org.json.JSONObject
   */
 
 trait Writer {
-  def write(json: JSONObject)
+  def write(json: JSONObject) : Option[List[java.util.Map.Entry[String, AnyRef]]]
 }

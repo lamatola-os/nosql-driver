@@ -1,5 +1,7 @@
 package org.nosql.reader
 
+import java.util
+
 import org.json.JSONObject
 
 /**
@@ -8,5 +10,5 @@ import org.json.JSONObject
   */
 
 trait Reader {
-  def read(query: JSONObject) : JSONObject
+  def read(query: util.LinkedHashMap[String, String], rangeKeys: util.LinkedHashMap[String, String]) : Option[JSONObject]
 }
