@@ -3,7 +3,7 @@ package org.nosql.admin
 import java.util
 
 import com.amazonaws.services.dynamodbv2.document.DynamoDB
-import com.amazonaws.services.dynamodbv2.model.{AttributeDefinition, CreateTableRequest, KeySchemaElement, ProvisionedThroughput}
+import com.amazonaws.services.dynamodbv2.model._
 import org.json.JSONObject
 import org.nosql.Config
 
@@ -15,13 +15,16 @@ import scala.collection.JavaConversions._
   */
 
 trait AdminOps {
-  def describe(tableName : String) : String
 
   def createTable(name: String, partitionKey: util.LinkedHashMap[String, String],
                   fieldsDefinitions: util.LinkedHashMap[String, String], throughput: Long,
                   writeThroughput : Long): String
 
   def dropTable(tableName: String) : String
+
+  def describe(tableName : String) : TableDescription
+  def partitionKey(tableName : String) : String
+  def sortKey(tableName : String) : String
 
 }
 
@@ -49,11 +52,25 @@ class AdminOperations extends AdminOps {
     dynamoDB.createTable(createTable).getDescription.getTableStatus
   }
 
-  override def describe(tableName: String): String = {
+  override def describe(tableName: String): TableDescription = {
     val tableInfo = dynamoDB.getTable(tableName).describe()
     val json = tableInfo.toString//.replaceAll(",}", "}")
     println(json)
-    json
+    tableInfo
+  }
+
+  override def partitionKey(tableName: String): String = {
+
+    val tableSchema = dynamoDB.getTable(tableName).describe()
+
+    tableSchema.getKeySchema.find(key => key.getKeyType.equals(KeyType.HASH.toString)).get.getAttributeName
+  }
+
+  override def sortKey(tableName: String): String = {
+
+    val tableSchema = dynamoDB.getTable(tableName).describe()
+
+    tableSchema.getKeySchema.find(key => key.getKeyType.equals(KeyType.RANGE.toString)).get.getAttributeName
   }
 
   override def dropTable(tableName: String): String = {
