@@ -20,6 +20,9 @@ trait AdminOps {
   def createTable(name: String, partitionKey: util.LinkedHashMap[String, String],
                   fieldsDefinitions: util.LinkedHashMap[String, String], throughput: Long,
                   writeThroughput : Long): String
+
+  def dropTable(tableName: String) : String
+
 }
 
 class AdminOperations extends AdminOps {
@@ -51,5 +54,15 @@ class AdminOperations extends AdminOps {
     val json = tableInfo.toString//.replaceAll(",}", "}")
     println(json)
     json
+  }
+
+  override def dropTable(tableName: String): String = {
+    val deleteTable = dynamoDB.getTable(tableName)
+    val deletion = deleteTable.delete()
+
+    deleteTable.waitForDelete()
+
+    println(deletion.getTableDescription.getLatestStreamLabel)
+    deletion.getTableDescription.getTableStatus
   }
 }

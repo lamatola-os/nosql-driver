@@ -11,14 +11,13 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient
   */
 
 object Config {
-
   def getHttpConnection: AmazonDynamoDBClient = {
-    val PROXYHOST: String = "x.y.net"
+    val PROXYHOST: String = "webproxysea.nordstrom.net"
     val PORT: Int = 8181
 
     val config = new ClientConfiguration() withProxyHost (PROXYHOST) withProxyPort (PORT)
 
-    val credentials = new ProfileCredentialsProvider("x-y")
+    val credentials = new ProfileCredentialsProvider("nordstrom-federated")
 
     val amazonDynamoDB = new AmazonDynamoDBClient(credentials, config)
     amazonDynamoDB.withRegion(Regions.US_WEST_2)

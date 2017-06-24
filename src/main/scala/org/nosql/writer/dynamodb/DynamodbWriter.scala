@@ -22,7 +22,9 @@ class DynamodbWriter(tableName: String) extends Writer {
     val item = new Item()
 
     //one level document
-    json.keys().toList.foreach { key => item.withString(key, json.getString(key))}
+    json.keys().toList.foreach { key =>
+      item.withString(key, json.getString(key))
+    }
 
     println("tables "+dynamoDB.listTables())
 
