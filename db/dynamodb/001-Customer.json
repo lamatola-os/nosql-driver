@@ -1,0 +1,81 @@
+{
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "customerId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "retailerId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "storeId",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "lastVisitDate",
+      "AttributeType": "S"
+    }
+  ],
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "Retailer-index",
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 5
+      },
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "retailerId"
+        }
+      ]
+    },
+    {
+      "IndexName": "Store-index",
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 5
+      },
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "storeId"
+        }
+      ]
+    },
+    {
+      "IndexName": "VisitedDate-index",
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "ProvisionedThroughput": {
+        "WriteCapacityUnits": 5,
+        "ReadCapacityUnits": 5
+      },
+      "KeySchema": [
+        {
+          "KeyType": "HASH",
+          "AttributeName": "lastVisitDate"
+        }
+      ]
+    }
+  ],
+  "ProvisionedThroughput": {
+    "WriteCapacityUnits": 5,
+    "ReadCapacityUnits": 5
+  },
+  "TableName": "Customer",
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "customerId"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "customerId": {
+    "S": "1"
+  },
+  "retailerId": {
+    "S": "100"
+  },
+  "storeId": {
+    "S": "111"
+  },
+  "lastVisitDate": {
+    "S": "2020-01-27 01:02:03"
+  }
+}
